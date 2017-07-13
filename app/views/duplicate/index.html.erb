@@ -1,0 +1,94 @@
+<style type="text/css">
+      #table{
+          width: 80%;
+          margin:auto;
+          border:1px solid black;
+          border-collapse: collapse;
+          margin-top:0.1%
+      }
+      #table th{
+          background: lightgray;
+
+      }
+      #table td, #table th{
+          border:1px solid black;
+      }
+
+     
+</style>
+<script type="text/javascript" language="javascript" src="/datatable/js/jquery.js"></script>
+<div style="text-align:center"><h4>The dataset has <font id="number_of_records"><%=SimpleElasticSearch.count()%></font> records</h4></div>     
+<div id="default" style="width: 90%;margin:auto; height: 400px; text-align: center; vertical-align: top;">
+        <div>
+              <input type="" name="" id="search" onkeydown="search()" onchange="search()">
+              <button onclick="clearInput()">Clear</button>
+        </div> 
+        <div class="left" style="height:60px;width:100%;margin:auto;margin-top:1%">
+              <input id="range" onchange="setValues(this);search()" type="range" min="1" max="100" value="60" step="1" style="width:40%;margin-top:0.4%"> 
+              <input id="number" onchange="setValues(this); search()"  type="number" min="1" max="100" step="1"  value="60" style="width:60px;color:#2e5d91"/>
+        </div>
+        <div>
+            <p style="color:green">Time taken <font id="time">0</font>s</p>
+            <table id="table">
+                  <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Content</th>
+                            <th>Score</th>
+                          </tr>
+                  </thead>
+                  <tbody>
+                        
+                  </tbody>
+            </table>
+        </div>    
+</div>
+<script type="text/javascript">
+      function __$(id){
+          return document.getElementById(id);
+      }
+      function setValues(element){
+          if (element.id=="range") {
+              __$("number").value = element.value;
+          }
+          if (element.id=="number") {
+              __$("range").value = element.value;
+          }
+      }
+      function clearInput(){
+            __$("search").value = "";
+            var target = $("#table tbody");
+            target.empty();
+      }
+      function search(){
+          var value = __$("search").value;
+          var percentage = __$("range").value
+          if(value.length == 0 ){
+              //alert("Search params is empty");
+              return;
+          }
+          var params ={percentage: percentage, query: value , size: 20, from:0}
+          $.getJSON("/duplicate/search",params,function(response){
+              __$("time").innerHTML = response.time
+              var target = $("#table tbody");
+              target.empty();
+              console.log(response);
+              var data = response.data
+              for(var i = 0 ; i < data.length ; i++){
+                  var tr = document.createElement("tr");
+                  var td = document.createElement("td")
+                  td.innerHTML = (i + 1);
+                  tr.appendChild(td);
+                  var td = document.createElement("td")
+                  td.innerHTML = data[i]["_source"].content;
+                  tr.appendChild(td)
+
+                  var td = document.createElement("td")
+                  td.innerHTML = data[i]["_score"];
+                  tr.appendChild(td)
+
+                  target.append(tr);
+              }
+          })
+      }
+</script>

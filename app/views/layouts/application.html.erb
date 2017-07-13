@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PotentialSearch</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <style type="text/css">
+  			#main{
+  				 width: 98%;
+  				 margin: auto;
+  				 border: 1px solid black;
+  				 padding: 1em;
+  				 height: 740px
+  			}
+  			
+  			#header{
+  				text-align: center;
+  			}
+  </style>
+  <body>
+  	<div id="main">
+	  	<div id="header" ><h3>Pontential Search</h3s></div>
+	  	<div>
+	  		<%= yield %>
+	  	</div>
+  	</div>
+  </body>
+</html>
