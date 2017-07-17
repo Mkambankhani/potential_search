@@ -9,7 +9,7 @@ Things you may want to cover:
 	2.2.2
 
 * System dependencies
-	* Install Elastic search and make use its running
+	* Install Elastic search and make sure its running
 
 * Configuration
 	* elasticsearchsetting.yml
